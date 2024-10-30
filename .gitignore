@@ -1,8 +1,10 @@
-# Compiled class file
+# Compiled class files
 *.class
 
-# Log file
+# Log files
 *.log
+*.out
+*.err
 
 # BlueJ files
 *.ctxt
@@ -19,6 +21,63 @@
 *.tar.gz
 *.rar
 
-# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
+# Spring Boot specific files
+# Exclude compiled .class files and JAR/WAR files created by Maven/Gradle
+target/
+build/
+
+# Maven specific files
+.mvn/
+!.mvn/wrapper/maven-wrapper.jar
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+.mvn/timing.properties
+
+# Gradle specific files
+.gradle/
+!gradle-wrapper.jar
+
+# IntelliJ IDEA specific files
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# VS Code specific files
+.vscode/
+
+# Temporary files created by your IDE
+*.swp
+*.swo
+
+# MacOS files
+.DS_Store
+
+# Windows files
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
 replay_pid*
+
+# Exclude database files
+*.h2.db
+*.mv.db
+*.sqlite.db
+
+# Other generated file
+*.tmp
+*.bak
+
+# Exclude all node_modules directories
+out/
+
+# Env
+.env
