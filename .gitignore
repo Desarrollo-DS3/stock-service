@@ -81,3 +81,5 @@ out/
 
 # Env
 .env
+
+build.bat
