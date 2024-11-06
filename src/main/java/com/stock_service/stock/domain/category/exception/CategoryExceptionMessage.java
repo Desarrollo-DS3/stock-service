@@ -24,6 +24,6 @@ public final class CategoryExceptionMessage {
     public static final String ALREADY_EXIST_CATEGORY =
             "Category already exists";
 
-    public static final String NO_FOUND_CATEGORIES =
-            "Some categories were not found";
+    public static final String NO_FOUND_CATEGORY =
+            "Category does not found";
 }
