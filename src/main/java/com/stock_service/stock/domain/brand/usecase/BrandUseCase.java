@@ -2,6 +2,7 @@ package com.stock_service.stock.domain.brand.usecase;
 
 import com.stock_service.stock.domain.brand.api.IBrandServicePort;
 import com.stock_service.stock.domain.brand.exception.ex.BrandAlreadyExistException;
+import com.stock_service.stock.domain.brand.exception.ex.BrandNotFoundByIdException;
 import com.stock_service.stock.domain.brand.exception.ex.BrandNotValidFieldException;
 import com.stock_service.stock.domain.brand.model.Brand;
 import com.stock_service.stock.domain.brand.spi.IBrandPersistencePort;
@@ -37,5 +38,11 @@ public class BrandUseCase implements IBrandServicePort {
             throw new BrandAlreadyExistException(ALREADY_EXIST_BRAND);
 
         brandPersistencePort.createBrand(brand);
+    }
+
+    @Override
+    public Brand getBrandById(Long id) {
+        return brandPersistencePort.getBrandById(id)
+                .orElseThrow(() -> new BrandNotFoundByIdException(NO_FOUND_BRAND));
     }
 }
