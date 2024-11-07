@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 public class CategoryHandler implements ICategoryHandler {
     private final ICategoryServicePort categoryServicePort;
     private final ICategoryRequestMapper categoryRequestMapper;
+
     @Override
     public void createBrand(CategoryRequest categoryRequest) {
         categoryServicePort.createCategory(categoryRequestMapper.toCategory(categoryRequest));

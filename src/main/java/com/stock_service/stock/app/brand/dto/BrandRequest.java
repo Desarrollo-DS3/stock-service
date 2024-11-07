@@ -9,7 +9,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import static com.stock_service.stock.domain.brand.exception.BrandExceptionMessage.*;
-import static com.stock_service.stock.domain.brand.util.BrandConstants.*;
+import static com.stock_service.stock.domain.brand.util.BrandConstants.MAX_DESCRIPTION_LENGTH;
+import static com.stock_service.stock.domain.brand.util.BrandConstants.MAX_NAME_LENGTH;
 
 @Getter
 @Setter

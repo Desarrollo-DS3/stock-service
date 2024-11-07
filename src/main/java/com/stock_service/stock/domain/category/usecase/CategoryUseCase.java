@@ -2,17 +2,14 @@ package com.stock_service.stock.domain.category.usecase;
 
 import com.stock_service.stock.domain.brand.exception.ex.BrandNotFoundByIdException;
 import com.stock_service.stock.domain.category.api.ICategoryServicePort;
-import com.stock_service.stock.domain.category.exception.ex.CategoriesNotFoundByIdsException;
 import com.stock_service.stock.domain.category.exception.ex.CategoryAlreadyExistException;
 import com.stock_service.stock.domain.category.exception.ex.CategoryNotValidFieldException;
 import com.stock_service.stock.domain.category.model.Category;
 import com.stock_service.stock.domain.category.spi.ICategoryPersistencePort;
 
-import java.util.List;
-
-import static com.stock_service.stock.domain.brand.exception.BrandExceptionMessage.NO_FOUND_BRAND;
 import static com.stock_service.stock.domain.category.exception.CategoryExceptionMessage.*;
-import static com.stock_service.stock.domain.category.util.CategoryConstants.*;
+import static com.stock_service.stock.domain.category.util.CategoryConstants.MAX_DESCRIPTION_LENGTH;
+import static com.stock_service.stock.domain.category.util.CategoryConstants.MAX_NAME_LENGTH;
 
 public class CategoryUseCase implements ICategoryServicePort {
     private final ICategoryPersistencePort categoryPersistencePort;
