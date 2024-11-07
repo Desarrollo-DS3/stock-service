@@ -8,7 +8,8 @@ import com.stock_service.stock.domain.brand.model.Brand;
 import com.stock_service.stock.domain.brand.spi.IBrandPersistencePort;
 
 import static com.stock_service.stock.domain.brand.exception.BrandExceptionMessage.*;
-import static com.stock_service.stock.domain.brand.util.BrandConstants.*;
+import static com.stock_service.stock.domain.brand.util.BrandConstants.MAX_DESCRIPTION_LENGTH;
+import static com.stock_service.stock.domain.brand.util.BrandConstants.MAX_NAME_LENGTH;
 
 public class BrandUseCase implements IBrandServicePort {
     private final IBrandPersistencePort brandPersistencePort;

@@ -6,6 +6,8 @@ import java.util.Optional;
 
 public interface IBrandPersistencePort {
     void createBrand(Brand brand);
+
     Boolean isBrandPresentByName(String brandName);
+
     Optional<Brand> getBrandById(Long id);
 }

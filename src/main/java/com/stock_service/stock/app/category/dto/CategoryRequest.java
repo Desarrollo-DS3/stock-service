@@ -9,7 +9,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import static com.stock_service.stock.domain.category.exception.CategoryExceptionMessage.*;
-import static com.stock_service.stock.domain.category.util.CategoryConstants.*;
+import static com.stock_service.stock.domain.category.util.CategoryConstants.MAX_DESCRIPTION_LENGTH;
+import static com.stock_service.stock.domain.category.util.CategoryConstants.MAX_NAME_LENGTH;
 
 @Setter
 @Getter
