@@ -11,6 +11,4 @@ public interface IProductPersistencePort {
     Optional<Product> getProductById(Long id);
 
     void updateProduct(Product product);
-
-    void supplyProduct(Product supply);
 }

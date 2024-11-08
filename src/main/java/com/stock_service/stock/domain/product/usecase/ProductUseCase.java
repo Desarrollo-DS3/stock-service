@@ -130,7 +130,7 @@ public class ProductUseCase implements IProductServicePort {
         Product product = findProduct(supply.getProductId());
         product.setStock(product.getStock() + supply.getQuantity());
 
-        productPersistencePort.supplyProduct(product);
+        productPersistencePort.updateProduct(product);
         productNotifyPort.notifySupply(supply);
     }
 
@@ -140,7 +140,7 @@ public class ProductUseCase implements IProductServicePort {
         Integer quantity = supply.getQuantity();
         validateProductId(productId);
         Product product = findProduct(productId);
-        product.setStock(product.getStock() + quantity);
+        product.setStock(product.getStock() - quantity);
         productPersistencePort.updateProduct(product);
     }
 }
