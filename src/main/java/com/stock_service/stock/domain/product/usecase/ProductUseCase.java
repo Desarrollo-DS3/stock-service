@@ -10,6 +10,7 @@ import com.stock_service.stock.domain.product.exception.ex.ProductNotFoundByIdEx
 import com.stock_service.stock.domain.product.exception.ex.ProductNotValidFieldException;
 import com.stock_service.stock.domain.product.exception.ex.StockNotValidFieldException;
 import com.stock_service.stock.domain.product.model.Product;
+import com.stock_service.stock.domain.product.model.Supply;
 import com.stock_service.stock.domain.product.spi.IProductNotifyPort;
 import com.stock_service.stock.domain.product.spi.IProductPersistencePort;
 
@@ -117,10 +118,29 @@ public class ProductUseCase implements IProductServicePort {
                 discountStock(productId, amount);
             }
 
-            productNotifyPort.notifyTransaction(transaction);
+            productNotifyPort.notifySale(transaction);
         } catch (Exception e) {
             productNotifyPort.notifyRollback(transaction);
             throw e;
         }
+    }
+
+    @Override
+    public void supplyProduct(Supply supply) {
+        Product product = findProduct(supply.getProductId());
+        product.setStock(product.getStock() + supply.getQuantity());
+
+        productPersistencePort.supplyProduct(product);
+        productNotifyPort.notifySupply(supply);
+    }
+
+    @Override
+    public void restoreStock(Supply supply) {
+        Long productId = supply.getProductId();
+        Integer quantity = supply.getQuantity();
+        validateProductId(productId);
+        Product product = findProduct(productId);
+        product.setStock(product.getStock() + quantity);
+        productPersistencePort.updateProduct(product);
     }
 }
