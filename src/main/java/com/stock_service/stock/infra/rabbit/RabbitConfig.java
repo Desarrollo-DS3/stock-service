@@ -36,6 +36,16 @@ public class RabbitConfig {
     }
 
     @Bean
+    public Queue supplyAddTransactionQueue() {
+        return new Queue("supply_add_transc", false);
+    }
+
+    @Bean
+    public Queue supplyRestoreStockQueue() {
+        return new Queue("supply_restore_stock", false);
+    }
+
+    @Bean
     public SimpleRabbitListenerContainerFactory rabbitListenerContainerFactory(ConnectionFactory connectionFactory, Jackson2JsonMessageConverter jackson2JsonMessageConverter) {
         SimpleRabbitListenerContainerFactory factory = new SimpleRabbitListenerContainerFactory();
         factory.setConnectionFactory(connectionFactory);

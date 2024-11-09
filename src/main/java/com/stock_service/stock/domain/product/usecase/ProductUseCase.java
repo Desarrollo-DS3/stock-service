@@ -10,8 +10,12 @@ import com.stock_service.stock.domain.product.exception.ex.ProductNotFoundByIdEx
 import com.stock_service.stock.domain.product.exception.ex.ProductNotValidFieldException;
 import com.stock_service.stock.domain.product.exception.ex.StockNotValidFieldException;
 import com.stock_service.stock.domain.product.model.Product;
+import com.stock_service.stock.domain.product.model.Supply;
 import com.stock_service.stock.domain.product.spi.IProductNotifyPort;
 import com.stock_service.stock.domain.product.spi.IProductPersistencePort;
+import com.stock_service.stock.infra.exception.ex.NotificationException;
+import com.stock_service.stock.infra.exception.ex.RollbackException;
+import jakarta.transaction.Transactional;
 
 import java.math.BigDecimal;
 
@@ -117,10 +121,44 @@ public class ProductUseCase implements IProductServicePort {
                 discountStock(productId, amount);
             }
 
-            productNotifyPort.notifyTransaction(transaction);
+            productNotifyPort.notifySale(transaction);
         } catch (Exception e) {
             productNotifyPort.notifyRollback(transaction);
             throw e;
         }
+    }
+
+    @Override
+    @Transactional
+    public void supplyProduct(Supply supply) {
+        Product product = findProduct(supply.getProductId());
+        Integer prevStock = product.getStock();
+        product.setStock(product.getStock() + supply.getQuantity());
+
+        productPersistencePort.updateProduct(product);
+
+        try {
+            supply.setUserId(1L);
+            productNotifyPort.notifySupply(supply);
+        } catch (Exception e) {
+            product.setStock(prevStock);
+            productPersistencePort.updateProduct(product);
+            throw new NotificationException("Failed to send supply notification for product ID: "
+                    + supply.getProductId() + ". Stock has been reverted. Reason: " + e.getMessage());
+        }
+    }
+
+    @Override
+    @Transactional
+    public void restoreStock(Supply supply) {
+        Long productId = supply.getProductId();
+        Integer quantity = supply.getQuantity();
+        validateProductId(productId);
+        Product product = findProduct(productId);
+        product.setStock(product.getStock() - quantity);
+        productPersistencePort.updateProduct(product);
+
+        throw new RollbackException("Rollback triggered: stock update for product ID "
+                + productId + " reverted due to insufficient stock or invalid supply quantity: " + quantity);
     }
 }

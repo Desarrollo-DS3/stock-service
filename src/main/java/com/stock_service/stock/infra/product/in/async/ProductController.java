@@ -1,6 +1,7 @@
 package com.stock_service.stock.infra.product.in.async;
 
 import com.stock_service.stock.app.product.dto.ProductRequest;
+import com.stock_service.stock.app.product.dto.SupplyRequest;
 import com.stock_service.stock.app.product.handler.IProductHandler;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -25,5 +26,11 @@ public class ProductController {
     public ResponseEntity<Void> createProduct(@Valid @RequestBody ProductRequest productRequest) {
         productHandler.createProduct(productRequest);
         return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
+
+    @PostMapping("/supply")
+    public ResponseEntity<Void> supplyProduct(@Valid @RequestBody SupplyRequest supplyRequest) {
+        productHandler.supplyProduct(supplyRequest);
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 }

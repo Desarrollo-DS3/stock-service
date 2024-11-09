@@ -1,6 +1,7 @@
 package com.stock_service.stock.domain.product.spi;
 
 import com.stock_service.stock.domain.product.model.Product;
+import com.stock_service.stock.domain.product.model.Supply;
 
 import java.util.Optional;
 

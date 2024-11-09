@@ -2,6 +2,7 @@ package com.stock_service.stock.app.product.handler;
 
 import com.stock_service.stock.app.product.dto.ProductRequest;
 import com.stock_service.stock.app.product.dto.ProductTransaction;
+import com.stock_service.stock.app.product.dto.SupplyRequest;
 import com.stock_service.stock.app.product.mapper.IProductRequestMapper;
 import com.stock_service.stock.domain.brand.api.IBrandServicePort;
 import com.stock_service.stock.domain.brand.model.Brand;
@@ -9,6 +10,7 @@ import com.stock_service.stock.domain.category.api.ICategoryServicePort;
 import com.stock_service.stock.domain.category.model.Category;
 import com.stock_service.stock.domain.product.api.IProductServicePort;
 import com.stock_service.stock.domain.product.model.Product;
+import com.stock_service.stock.domain.product.model.Supply;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -41,5 +43,15 @@ public class ProductHandler implements IProductHandler {
     @Override
     public void discountStocks(ProductTransaction transaction) {
         productServicePort.discountStocks(transaction);
+    }
+
+    @Override
+    public void supplyProduct(SupplyRequest supplyRequest) {
+        productServicePort.supplyProduct(productRequestMapper.toSupply(supplyRequest));
+    }
+
+    @Override
+    public void restoreStock(SupplyRequest supplyRequest) {
+        productServicePort.restoreStock(productRequestMapper.toSupply(supplyRequest));
     }
 }
