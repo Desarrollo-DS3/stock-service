@@ -10,6 +10,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @ToString
 public class Supply {
+    private Long userId;
     private Long productId;
     private Integer quantity;
 }

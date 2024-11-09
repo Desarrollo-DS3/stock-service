@@ -15,5 +15,6 @@ public interface IProductRequestMapper {
     @Mapping(target = CATEGORY, ignore = true)
     @Mapping(target = BRAND, ignore = true)
     Product toProduct(ProductRequest productRequest);
+    @Mapping(target = "userId", ignore = true)
     Supply toSupply(SupplyRequest supplyRequest);
 }

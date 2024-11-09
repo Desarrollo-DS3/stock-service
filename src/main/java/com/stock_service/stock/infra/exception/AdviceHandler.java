@@ -11,8 +11,12 @@ import com.stock_service.stock.domain.category.exception.ex.CategoryNotValidFiel
 import com.stock_service.stock.domain.category.exception.ex.CategoryNotValidParameterException;
 import com.stock_service.stock.domain.error.ErrorDetail;
 import com.stock_service.stock.domain.util.GlobalExceptionMessage;
+import com.stock_service.stock.infra.exception.ex.NotificationException;
 import io.jsonwebtoken.JwtException;
+import jakarta.transaction.RollbackException;
 import jakarta.validation.ConstraintViolationException;
+import org.hibernate.TransactionException;
+import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -31,6 +35,27 @@ import static com.stock_service.stock.domain.util.GlobalExceptionMessage.INVALID
 
 @ControllerAdvice
 public class AdviceHandler {
+
+    @ExceptionHandler(RollbackException.class)
+    public ResponseEntity<Object> handleRollbackException(RollbackException ex, WebRequest request) {
+        return ResponseEntity.status(400).body("Stock operation error: " + ex.getMessage());
+    }
+
+    @ExceptionHandler(NotificationException.class)
+    public ResponseEntity<Object> handleNotificationException(NotificationException ex, WebRequest request) {
+        return ResponseEntity.status(400).body("Failed to send notification for stock operation: " + ex.getMessage());
+    }
+
+    @ExceptionHandler(TransactionException.class)
+    public ResponseEntity<Object> handleTransactionException(TransactionException ex, WebRequest request) {
+        return ResponseEntity.status(500).body("Database transaction error: " + ex.getMessage());
+    }
+
+    @ExceptionHandler(DataAccessException.class)
+    public ResponseEntity<Object> handleDataAccessException(DataAccessException ex, WebRequest request) {
+        return ResponseEntity.status(500).body("Database access error: " + ex.getMessage());
+    }
+
     //Category
     @ExceptionHandler(CategoryAlreadyExistException.class)
     public ResponseEntity<ExceptionDetails> handleCategoryAlreadyExistException(CategoryAlreadyExistException ex, WebRequest request) {
