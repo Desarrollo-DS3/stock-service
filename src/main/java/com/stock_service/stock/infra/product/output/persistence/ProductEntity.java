@@ -1,7 +1,7 @@
 package com.stock_service.stock.infra.product.output.persistence;
 
-import com.stock_service.stock.infra.brand.out.BrandEntity;
-import com.stock_service.stock.infra.category.out.CategoryEntity;
+import com.stock_service.stock.infra.brand.output.BrandEntity;
+import com.stock_service.stock.infra.category.output.CategoryEntity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
