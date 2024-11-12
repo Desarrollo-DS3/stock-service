@@ -149,7 +149,6 @@ public class ProductUseCase implements IProductServicePort {
     }
 
     @Override
-    @Transactional
     public void restoreStock(Supply supply) {
         Long productId = supply.getProductId();
         Integer quantity = supply.getQuantity();
