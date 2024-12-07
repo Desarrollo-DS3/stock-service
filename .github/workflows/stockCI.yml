@@ -20,6 +20,9 @@ jobs:
         java-version: '19'
         distribution: 'oracle'
 
+    - name: Change wrapper permissions
+      run: chmod +x ./gradlew
+
     - name: Build with Gradle
       run: ./gradlew build
 
