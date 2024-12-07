@@ -4,6 +4,8 @@ import com.stock_service.stock.domain.product.model.Product;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
+import java.util.List;
+
 import static com.stock_service.stock.domain.product.util.ProductConstants.BRAND;
 import static com.stock_service.stock.domain.product.util.ProductConstants.CATEGORY;
 
@@ -14,4 +16,5 @@ public interface IProductMapper {
     ProductEntity toEntity(Product product);
 
     Product toProduct(ProductEntity productEntity);
+    List<Product> toProductList(List<ProductEntity> productEntityList);
 }

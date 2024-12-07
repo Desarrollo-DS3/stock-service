@@ -18,6 +18,7 @@ import com.stock_service.stock.infra.exception.ex.RollbackException;
 import jakarta.transaction.Transactional;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 import static com.stock_service.stock.domain.product.exception.ProductExceptionMessage.*;
 import static com.stock_service.stock.domain.product.util.ProductConstants.MIN_PRICE;
@@ -159,5 +160,15 @@ public class ProductUseCase implements IProductServicePort {
 
         throw new RollbackException("Rollback triggered: stock update for product ID "
                 + productId + " reverted due to insufficient stock or invalid supply quantity: " + quantity);
+    }
+
+    @Override
+    public List<Product> getAllProducts() {
+        return productPersistencePort.getAllProducts();
+    }
+
+    @Override
+    public Product getProductById(long productId) {
+        return productPersistencePort.getProductById(productId).orElseThrow(() -> new ProductNotFoundByIdException(NO_FOUND_PRODUCT));
     }
 }

@@ -7,6 +7,8 @@ import com.stock_service.stock.domain.brand.exception.ex.BrandNotValidFieldExcep
 import com.stock_service.stock.domain.brand.model.Brand;
 import com.stock_service.stock.domain.brand.spi.IBrandPersistencePort;
 
+import java.util.List;
+
 import static com.stock_service.stock.domain.brand.exception.BrandExceptionMessage.*;
 import static com.stock_service.stock.domain.brand.util.BrandConstants.MAX_DESCRIPTION_LENGTH;
 import static com.stock_service.stock.domain.brand.util.BrandConstants.MAX_NAME_LENGTH;
@@ -45,5 +47,10 @@ public class BrandUseCase implements IBrandServicePort {
     public Brand getBrandById(Long id) {
         return brandPersistencePort.getBrandById(id)
                 .orElseThrow(() -> new BrandNotFoundByIdException(NO_FOUND_BRAND));
+    }
+
+    @Override
+    public List<Brand> getAllBrands() {
+        return brandPersistencePort.getAllBrands();
     }
 }

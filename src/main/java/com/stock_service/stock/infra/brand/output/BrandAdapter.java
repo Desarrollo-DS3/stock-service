@@ -3,6 +3,7 @@ package com.stock_service.stock.infra.brand.output;
 import com.stock_service.stock.domain.brand.model.Brand;
 import com.stock_service.stock.domain.brand.spi.IBrandPersistencePort;
 
+import java.util.List;
 import java.util.Optional;
 
 public class BrandAdapter implements IBrandPersistencePort {
@@ -27,5 +28,10 @@ public class BrandAdapter implements IBrandPersistencePort {
     @Override
     public Optional<Brand> getBrandById(Long brandId) {
         return brandRepository.findById(brandId).map(brandMapper::toBrand);
+    }
+
+    @Override
+    public List<Brand> getAllBrands() {
+        return brandMapper.toBrands(brandRepository.findAll());
     }
 }

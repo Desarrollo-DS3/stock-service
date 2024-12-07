@@ -3,6 +3,7 @@ package com.stock_service.stock.infra.category.output;
 import com.stock_service.stock.domain.category.model.Category;
 import com.stock_service.stock.domain.category.spi.ICategoryPersistencePort;
 
+import java.util.List;
 import java.util.Optional;
 
 public class CategoryAdapter implements ICategoryPersistencePort {
@@ -28,5 +29,10 @@ public class CategoryAdapter implements ICategoryPersistencePort {
     @Override
     public Optional<Category> getCategoryById(Long categoryId) {
         return categoryRepository.findById(categoryId).map(categoryMapper::toCategory);
+    }
+
+    @Override
+    public List<Category> getAllCategories() {
+        return categoryMapper.toCategoriesList(categoryRepository.findAll());
     }
 }
