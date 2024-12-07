@@ -4,11 +4,8 @@ import com.fasterxml.jackson.databind.exc.MismatchedInputException;
 import com.stock_service.stock.domain.brand.exception.ex.BrandAlreadyExistException;
 import com.stock_service.stock.domain.brand.exception.ex.BrandNotFoundByIdException;
 import com.stock_service.stock.domain.brand.exception.ex.BrandNotValidFieldException;
-import com.stock_service.stock.domain.brand.exception.ex.BrandNotValidParameterException;
-import com.stock_service.stock.domain.category.exception.ex.CategoriesNotFoundByIdsException;
 import com.stock_service.stock.domain.category.exception.ex.CategoryAlreadyExistException;
 import com.stock_service.stock.domain.category.exception.ex.CategoryNotValidFieldException;
-import com.stock_service.stock.domain.category.exception.ex.CategoryNotValidParameterException;
 import com.stock_service.stock.domain.error.ErrorDetail;
 import com.stock_service.stock.domain.util.GlobalExceptionMessage;
 import com.stock_service.stock.infra.exception.ex.NotificationException;
@@ -85,34 +82,6 @@ public class AdviceHandler {
         return new ResponseEntity<>(details, HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(CategoryNotValidParameterException.class)
-    public ResponseEntity<ExceptionDetails> handleInvalidParameterException(CategoryNotValidParameterException ex) {
-        ExceptionDetails details = new ExceptionDetails(
-                HttpStatus.BAD_REQUEST.value(),
-                HttpStatus.BAD_REQUEST.getReasonPhrase(),
-                ex.getMessage(),
-                "",
-                LocalDateTime.now(),
-                null
-        );
-
-        return new ResponseEntity<>(details, HttpStatus.BAD_REQUEST);
-    }
-
-    @ExceptionHandler(CategoriesNotFoundByIdsException.class)
-    public ResponseEntity<ExceptionDetails> handleCategoriesNotFoundByIdsException(CategoriesNotFoundByIdsException ex) {
-        ExceptionDetails details = new ExceptionDetails(
-                HttpStatus.NOT_FOUND.value(),
-                HttpStatus.NOT_FOUND.getReasonPhrase(),
-                ex.getMessage(),
-                ex.getMissingIds().toString(),
-                LocalDateTime.now(),
-                null
-        );
-
-        return new ResponseEntity<>(details, HttpStatus.NOT_FOUND);
-    }
-
     //Brand
     @ExceptionHandler(BrandAlreadyExistException.class)
     public ResponseEntity<ExceptionDetails> handleCategoryAlreadyExistException(BrandAlreadyExistException ex, WebRequest request) {
@@ -130,20 +99,6 @@ public class AdviceHandler {
 
     @ExceptionHandler(BrandNotValidFieldException.class)
     public ResponseEntity<ExceptionDetails> handleMaxLengthExceededException(BrandNotValidFieldException ex) {
-        ExceptionDetails details = new ExceptionDetails(
-                HttpStatus.BAD_REQUEST.value(),
-                HttpStatus.BAD_REQUEST.getReasonPhrase(),
-                ex.getMessage(),
-                "",
-                LocalDateTime.now(),
-                null
-        );
-
-        return new ResponseEntity<>(details, HttpStatus.BAD_REQUEST);
-    }
-
-    @ExceptionHandler(BrandNotValidParameterException.class)
-    public ResponseEntity<ExceptionDetails> handleInvalidParameterException(BrandNotValidParameterException ex) {
         ExceptionDetails details = new ExceptionDetails(
                 HttpStatus.BAD_REQUEST.value(),
                 HttpStatus.BAD_REQUEST.getReasonPhrase(),

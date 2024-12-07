@@ -2,6 +2,7 @@ package com.stock_service.stock.domain.category.spi;
 
 import com.stock_service.stock.domain.category.model.Category;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface ICategoryPersistencePort {
@@ -10,4 +11,6 @@ public interface ICategoryPersistencePort {
     Boolean isCategoryPresentByName(String categoryName);
 
     Optional<Category> getCategoryById(Long id);
+
+    List<Category> getAllCategories();
 }
