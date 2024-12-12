@@ -157,4 +157,17 @@ class ProductHandlerTest {
         verify(productServicePort, times(1)).getProductById(productId);
         verify(productResponseMapper, times(1)).toResponse(product);
     }
+
+    @Test
+    void shouldCallBuyProductOnProductServicePort() {
+        SupplyRequest supplyRequest = mock(SupplyRequest.class);
+        Supply supply = mock(Supply.class);
+
+        when(productRequestMapper.toSupply(supplyRequest)).thenReturn(supply);
+
+        productHandler.buyProduct(supplyRequest);
+
+        verify(productRequestMapper, times(1)).toSupply(supplyRequest);
+        verify(productServicePort, times(1)).buyProduct(supply);
+    }
 }

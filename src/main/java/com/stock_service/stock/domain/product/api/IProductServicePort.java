@@ -22,4 +22,6 @@ public interface IProductServicePort {
     List<Product> getAllProducts();
 
     Product getProductById(long productId);
+
+    void buyProduct(Supply supply);
 }

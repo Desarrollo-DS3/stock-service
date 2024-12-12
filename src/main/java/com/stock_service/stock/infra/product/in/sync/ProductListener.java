@@ -1,6 +1,5 @@
 package com.stock_service.stock.infra.product.in.sync;
 
-import com.rabbitmq.client.Channel;
 import com.stock_service.stock.app.product.dto.ProductTransaction;
 import com.stock_service.stock.app.product.dto.SupplyRequest;
 import com.stock_service.stock.app.product.handler.IProductHandler;
@@ -8,8 +7,6 @@ import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
-import org.springframework.amqp.support.AmqpHeaders;
-import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
 
