@@ -40,6 +40,12 @@ public class ProductController {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
+    @PostMapping("/buy")
+    @PreAuthorize("hasRole('ROLE_USER')")
+    public ResponseEntity<Void> buyProduct() {
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
     @GetMapping("/list")
     @PreAuthorize("permitAll()")
     public ResponseEntity<List<ProductResponse>> getAllProducts() {
