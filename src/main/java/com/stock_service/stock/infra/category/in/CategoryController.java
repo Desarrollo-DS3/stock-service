@@ -6,6 +6,7 @@ import com.stock_service.stock.app.category.handler.ICategoryHandler;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,12 +23,14 @@ public class CategoryController {
     }
 
     @PostMapping("/create")
+    @PreAuthorize("hasRole('ROLE_WAREHOUSE_ASSISTANT')")
     public ResponseEntity<Void> createCategory(@Valid @RequestBody CategoryRequest categoryRequest) {
         categoryHandler.createBrand(categoryRequest);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @GetMapping("/list")
+    @PreAuthorize("permitAll()")
     public ResponseEntity<List<CategoryResponse>> getAllCategories() {
         List<CategoryResponse> list = categoryHandler.getAllCategories();
         return ResponseEntity.status(HttpStatus.OK).body(list);

@@ -15,6 +15,7 @@ import com.stock_service.stock.domain.product.spi.IProductNotifyPort;
 import com.stock_service.stock.domain.product.spi.IProductPersistencePort;
 import com.stock_service.stock.infra.exception.ex.NotificationException;
 import com.stock_service.stock.infra.exception.ex.RollbackException;
+import com.stock_service.stock.infra.security.user.UserContextHolder;
 import jakarta.transaction.Transactional;
 
 import java.math.BigDecimal;
@@ -139,7 +140,8 @@ public class ProductUseCase implements IProductServicePort {
         productPersistencePort.updateProduct(product);
 
         try {
-            supply.setUserId(1L);
+            System.out.println(UserContextHolder.getUserId());
+            supply.setUserId(UserContextHolder.getUserId());
             productNotifyPort.notifySupply(supply);
         } catch (Exception e) {
             product.setStock(prevStock);
