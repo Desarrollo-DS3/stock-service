@@ -68,4 +68,9 @@ public class ProductHandler implements IProductHandler {
     public ProductResponse getProductById(long id) {
         return productResponseMapper.toResponse(productServicePort.getProductById(id));
     }
+
+    @Override
+    public void buyProduct(SupplyRequest supplyRequest) {
+        productServicePort.buyProduct(productRequestMapper.toSupply(supplyRequest));
+    }
 }

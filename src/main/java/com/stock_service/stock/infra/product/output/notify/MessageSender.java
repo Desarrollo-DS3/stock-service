@@ -32,7 +32,6 @@ public class MessageSender {
         String jsonMessage = null;
         try {
             jsonMessage = objectMapper.writeValueAsString(transaction);
-            System.out.println(jsonMessage);
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
@@ -44,7 +43,6 @@ public class MessageSender {
         String jsonMessage = null;
         try {
             jsonMessage = objectMapper.writeValueAsString(supply);
-            System.out.println(jsonMessage);
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }

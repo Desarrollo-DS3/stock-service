@@ -42,7 +42,8 @@ public class ProductController {
 
     @PostMapping("/buy")
     @PreAuthorize("hasRole('ROLE_USER')")
-    public ResponseEntity<Void> buyProduct() {
+    public ResponseEntity<Void> buyProduct(@Valid @RequestBody SupplyRequest supplyRequest) {
+        productHandler.buyProduct(supplyRequest);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 

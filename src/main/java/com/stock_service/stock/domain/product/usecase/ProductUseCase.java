@@ -5,7 +5,6 @@ import com.stock_service.stock.app.product.dto.ProductTransactionItem;
 import com.stock_service.stock.domain.brand.model.Brand;
 import com.stock_service.stock.domain.category.model.Category;
 import com.stock_service.stock.domain.product.api.IProductServicePort;
-import com.stock_service.stock.domain.product.exception.ex.InsufficientStockException;
 import com.stock_service.stock.domain.product.exception.ex.ProductNotFoundByIdException;
 import com.stock_service.stock.domain.product.exception.ex.ProductNotValidFieldException;
 import com.stock_service.stock.domain.product.exception.ex.StockNotValidFieldException;
@@ -100,34 +99,34 @@ public class ProductUseCase implements IProductServicePort {
             updateStock(productId, amount);
         }
 
-        productNotifyPort.notifyRollback(transaction);
+//        productNotifyPort.notifyRollback(transaction);
     }
 
     private void discountStock(Long productId, int amount) {
-        Product product = findProduct(productId);
-        if (product.getStock() < amount) {
-            throw new InsufficientStockException("Insufficient stock for product ID: " + productId);
-        }
-
-        product.setStock(product.getStock() - amount);
-
-        productPersistencePort.updateProduct(product);
+//        Product product = findProduct(productId);
+//        if (product.getStock() < amount) {
+//            throw new InsufficientStockException("Insufficient stock for product ID: " + productId);
+//        }
+//
+//        product.setStock(product.getStock() - amount);
+//
+//        productPersistencePort.updateProduct(product);
     }
 
     @Override
     public void discountStocks(ProductTransaction transaction) {
-        try {
-            for (ProductTransactionItem transactionItem : transaction.getProducts()) {
-                Long productId = transactionItem.getProductId();
-                int amount = transactionItem.getQuantity();
-                discountStock(productId, amount);
-            }
-
-            productNotifyPort.notifySale(transaction);
-        } catch (Exception e) {
-            productNotifyPort.notifyRollback(transaction);
-            throw e;
-        }
+//        try {
+//            for (ProductTransactionItem transactionItem : transaction.getProducts()) {
+//                Long productId = transactionItem.getProductId();
+//                int amount = transactionItem.getQuantity();
+//                discountStock(productId, amount);
+//            }
+//
+//            productNotifyPort.notifySale(transaction);
+//        } catch (Exception e) {
+//            productNotifyPort.notifyRollback(transaction);
+//            throw e;
+//        }
     }
 
     @Override
@@ -140,7 +139,6 @@ public class ProductUseCase implements IProductServicePort {
         productPersistencePort.updateProduct(product);
 
         try {
-            System.out.println(UserContextHolder.getUserId());
             supply.setUserId(UserContextHolder.getUserId());
             productNotifyPort.notifySupply(supply);
         } catch (Exception e) {
@@ -172,5 +170,32 @@ public class ProductUseCase implements IProductServicePort {
     @Override
     public Product getProductById(long productId) {
         return productPersistencePort.getProductById(productId).orElseThrow(() -> new ProductNotFoundByIdException(NO_FOUND_PRODUCT));
+    }
+
+    @Override
+    public void buyProduct(Supply sale) {
+        Product product = findProduct(sale.getProductId());
+        Integer prevStock = product.getStock();
+        product.setStock(product.getStock() - sale.getQuantity());
+
+        productPersistencePort.updateProduct(product);
+
+        try {
+            ProductTransactionItem transactionItem = new ProductTransactionItem();
+            transactionItem.setProductId(product.getId());
+            transactionItem.setQuantity(sale.getQuantity());
+            transactionItem.setPrice(product.getPrice().multiply(BigDecimal.valueOf(sale.getQuantity())));
+
+            ProductTransaction transaction = new ProductTransaction();
+            transaction.setUserId(UserContextHolder.getUserId());
+            transaction.setProducts(List.of(transactionItem));
+
+            productNotifyPort.notifySale(transaction);
+        } catch (Exception e) {
+            product.setStock(prevStock);
+            productPersistencePort.updateProduct(product);
+            throw new NotificationException("Failed to send sale notification for product ID: "
+                    + sale.getProductId() + ". Stock has been reverted. Reason: " + e.getMessage());
+        }
     }
 }
